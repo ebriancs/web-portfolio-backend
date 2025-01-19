@@ -3,14 +3,16 @@ from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import DeviceInfo
-from .serializers import DeviceInfoSerializer
+from .models import DeviceInfo, Contact
+from .serializers import DeviceInfoSerializer, ContactSerializer
+import logging
+
+logger = logging.getLogger(__name__)
 
 class DeviceInfoView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             data = request.data
-            print(data, sep='\n')
             mapped_data = {
                 'user_agent': data.get('userAgent'),
                 'platform': data.get('platform'),
@@ -18,12 +20,11 @@ class DeviceInfoView(APIView):
                 'ip': data.get('ip'),
                 'referrer': data.get('referrer'),
             }
-            print(mapped_data, sep='\n')
+            logger.debug(f"mapped_data: {mapped_data}\n")
             serializer = DeviceInfoSerializer(data=mapped_data)
             if serializer.is_valid():
                 serializer.save()
                 return Response({'message': 'Device info created successfully!'}, status=status.HTTP_201_CREATED)
-            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -31,3 +32,24 @@ class DeviceInfoView(APIView):
     def get(self, request, *args, **kwargs):
         return Response({'message': 'Device info'}, status=status.HTTP_200_OK)
     
+
+class ContactView(APIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            data = request.data
+            mapped_data = {
+                'name': data.get('name'),
+                'email': data.get('email'),
+                'mobile': data.get('mobile'),
+                'subject': data.get('subject'),
+                'message': data.get('message'),
+            }
+            logger.debug(f"mapped_data: {mapped_data}\n")
+            logger.info(f"mapped_data: {mapped_data}\n")
+            serializer = ContactSerializer(data=mapped_data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'message': 'Contact created successfully!'}, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
