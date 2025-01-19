@@ -143,7 +143,7 @@ REST_FRAMEWORK = {
     ],
 }
 
-CSRF_TOKEN_ORIGINS = config('CSRF_TOKEN_ORIGINS', default='').split(',')
+CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='').split(',')
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
