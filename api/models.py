@@ -7,6 +7,7 @@ class DeviceInfo(models.Model):
     platform = models.CharField(max_length=100)
     language = models.CharField(max_length=50)
     ip = models.GenericIPAddressField()
+    referrer = models.URLField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

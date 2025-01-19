@@ -16,6 +16,7 @@ class DeviceInfoView(APIView):
                 'platform': data.get('platform'),
                 'language': data.get('language'),
                 'ip': data.get('ip'),
+                'referrer': data.get('referrer'),
             }
             print(mapped_data, sep='\n')
             serializer = DeviceInfoSerializer(data=mapped_data)
