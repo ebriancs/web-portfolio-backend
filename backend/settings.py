@@ -142,3 +142,5 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 }
+
+CSRF_TOKEN_ORIGINS = config('CSRF_TOKEN_ORIGINS', default='').split(',')
